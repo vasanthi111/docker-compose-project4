@@ -10,7 +10,12 @@ services:
       - MYSQL_ROOT_PASSWORD=wordpress
       - MYSQL_DATABASE=databaseword
       - MYSQL_USER=admin
-      - MYSQL_PASSWORD=ADMIN123
+      - MYSQL_PASSWORD=admin123
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   wordpress:
     image: wordpress:latest
@@ -20,7 +25,7 @@ services:
     environment:
       - WORDPRESS_DB_HOST=db
       - WORDPRESS_DB_USER=admin
-      - WORDPRESS_DB_PASSWORD=admin123
+      - WORDPRESS_DB_PASSWORD=admin123   # Corrected to match MYSQL_PASSWORD
       - WORDPRESS_DB_NAME=databaseword
 
 volumes:
